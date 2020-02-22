@@ -211,6 +211,12 @@ print(string.format("%s", "hello"))
 --table
     construct
         { }
+        list-style
+            {1, 2, 3}
+        record-style
+            {a = 1, b = 2,}
+        general-style
+            { ["+"] = 1, [1] = 2}
     index
         any-type
             may have different performance
@@ -236,8 +242,17 @@ for key, val in pairs(tbl) do
 end
 --]]
 
+tbl = { ["+"] = 1}
+print(tbl["+"])
 
+tbl = {1, 2, 3}
+print(tbl[1])
 
+tbl = {a = 1, b = 2}
+print(tbl["a"])
+
+tbl =  { ["+"] = 1, [1] = 2}
+print(tbl["+"] .. tbl[1])
 --[[
 
 --function
