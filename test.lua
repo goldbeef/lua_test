@@ -615,9 +615,26 @@ repeat
    statements
 until( condition )
 
+return
+break
+goto
+    can not jump
+        local var
+        other code-block
+        out of function
 --]]
 
+
 --[[
+
+goto END
+-- local a = 1
+-- do
+    ::END::
+-- end
+print("hello end")
+
+
 a=10
 while( a < 20 )
 do
