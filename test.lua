@@ -494,9 +494,6 @@ print("unpack")
 print(table.unpack({1,2,3})) --3 elem
 print(table.unpack({1,2,nil, 3})) --4 elem
 
-
---]]
-
 function foo(n)
     if n > 0 then
         return foo(n-1)
@@ -516,11 +513,42 @@ end
 
 print("foo1")
 print(foo1(1024*1024))
+
+--]]
+
 --[[
 thread
 userdata
-
 --]]
+
+--[[
+io
+    simple-io
+        io.input
+        io.output
+        io.read
+        io.write
+        io.lines
+    full-io
+        io.open
+        f:read
+        f:write
+        f:close
+others
+    io.tmpfile
+    flush
+    setvbuf
+    seek
+    rename
+    remove
+
+    os.exit
+    os.execute
+    os.getenv
+
+    io.popen
+--]]
+
 
 --[[
 --var
