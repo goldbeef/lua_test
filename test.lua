@@ -223,6 +223,18 @@ print(string.format("%s", "hello"))
         tbl[0.0] => tbl[0]
         tbl[0.1] => tbl[0.1]
         tbl["key"] ==> tbl.key
+    array/list
+        tbl = {1,2,3, nil, 4}
+        tbl = {1,2,3, 4}
+
+        #
+            if have hole with val is nil, not accurate,
+            should store the length by self
+     sequence
+        tbl = {1,2,3, 4}
+        #
+            for length, accurate
+
 
 --]]
 --[[
@@ -240,7 +252,6 @@ for key, val in pairs(tbl) do
     print("Key", key)
     print("Val", val)
 end
---]]
 
 tbl = { ["+"] = 1}
 print(tbl["+"])
@@ -253,6 +264,17 @@ print(tbl["a"])
 
 tbl =  { ["+"] = 1, [1] = 2}
 print(tbl["+"] .. tbl[1])
+
+print("#" .. #{1,2,3}) -- 3
+print("#" .. #{1,nil,3}) -- 3
+print("#" .. #{1,nil,3, nil, nil}) -- 1
+
+tbl = {}
+tbl[1] = 1
+tbl[100] = 100
+print("#" .. #tbl)
+--]]
+
 --[[
 
 --function
