@@ -235,6 +235,28 @@ print(string.format("%s", "hello"))
         #
             for length, accurate
 
+    travel table
+        pairs
+            may random
+        ipairs
+            only for sequence, accurate
+        k = 1, #tbl
+            only for sequence, accurate
+    safe-access
+        zip = company and company.director and
+            company.director.address and
+            company.director.address.zipCode       ==>
+
+        zip = ((((company or {})).director or {}).address or {}).zipCode  -- good
+
+        zip = (((company
+                    or E).director
+                        or E).address
+                            or E).zipCode
+    lib
+        table.remove
+        table.insert ..
+
 
 --]]
 --[[
@@ -273,6 +295,55 @@ tbl = {}
 tbl[1] = 1
 tbl[100] = 100
 print("#" .. #tbl)
+
+tbl = {1, print, 12, "hi"}
+print("------ipairs-------")
+for k, v in ipairs(tbl) do
+    print(k,v) --4 element
+end
+
+print("------pairs-------")
+for k, v in pairs(tbl) do
+    print(k,v) --4 element
+end
+
+print("------#-------")
+for k = 1, #tbl do
+    print(k, tbl[k])
+end
+
+tbl = {1, print, 12, nil, "hi"}
+print("------hole, ipairs-------")
+for k, v in ipairs(tbl) do
+    print(k,v) -- 3 element
+end
+
+print("------hole, pairs-------")
+for k, v in pairs(tbl) do
+    print(k,v) -- 4 element
+end
+
+E = {}
+zip = (((company
+        or E).director
+        or E).address
+        or E).zipCode
+print(zip)
+
+company = {
+    director = {
+        address = {
+            zipCode = "hello"
+        }
+    }
+}
+
+zip = (((company
+        or E).director
+        or E).address
+        or E).zipCode
+print(zip)
+
 --]]
 
 --[[
