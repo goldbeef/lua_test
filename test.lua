@@ -551,6 +551,20 @@ others
 
 
 --[[
+local var
+    local varName = val
+    优点：
+        名字冲突
+        访问速度快；
+        gc速度快；
+
+    local table = table
+        访问速度快；
+        动态替换
+code block
+    do
+        ...
+    end
 --var
 a = 5               -- 全局变量
 local b = 5         -- 局部变量
@@ -585,9 +599,17 @@ do
     statements
 end
 
+--number
 for var=exp1,exp2,exp3 do
     <执行体>
 end
+--genetic
+
+for with
+    pairs
+    ipairs
+    io.lines()
+
 
 repeat
    statements
