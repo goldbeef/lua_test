@@ -358,6 +358,18 @@ print(zip)
     param
         抛弃多余的
         补齐不够的
+
+        可变参数
+            ... : 可变参数表达式，类似多个返回值的
+            遍历：
+                {...}
+                    ipairs/pairs
+                arg = table.pack(...)
+                    arg.n --one by one
+                num = select("#", ...)
+                    num -- one by one
+
+            table.unpack(list, start, end)
     multi-return
         multi-assign
             最右
@@ -367,7 +379,13 @@ print(zip)
             最右
         return
             最右
+    force-one-return
+        return (funcName(param1, param2, ..))
 
+    tail-call elimination
+        use no stack, just like
+
+        return func(args)
 function factorial1(n)
     if n == 0 then
         return 1
@@ -378,8 +396,6 @@ end
 print(factorial1(5))
 factorial2 = factorial1
 print(factorial2(5))
---]]
-
 
 function foo0()
 
@@ -433,7 +449,73 @@ end
 
 print("return")
 print(foo(2))
+function display1(...)
+    for _, v in ipairs({...}) do
+        print(v)
+    end
+end
 
+print("display1")
+display1(1,2,3) --1,2,3
+display1(1,2, nil, 3) --1,2
+
+function display2(...)
+    for _, v in pairs({...}) do
+        print(v)
+    end
+end
+
+print("display2")
+display2(1,2,3) --1,2,3
+display2(1,2, nil, 3) --1,2, 3
+
+function display3(...)
+    local arg = table.pack(...)
+    for i = 1, arg.n  do
+        print(arg[i])
+    end
+end
+
+print("display3")
+display3(1,2,3) --1,2,3
+display3(1,2, nil, 3) --1,2, nil, 3
+
+function display4(...)
+    print(select("#", ...))
+    -- travel one by one
+end
+
+print("display4")
+display4(1,2,3) --3
+display4(1,2, nil, 3) --4
+
+
+print("unpack")
+print(table.unpack({1,2,3})) --3 elem
+print(table.unpack({1,2,nil, 3})) --4 elem
+
+
+--]]
+
+function foo(n)
+    if n > 0 then
+        return foo(n-1)
+    end
+end
+
+print("foo")
+print(foo(1024*1024))
+
+function foo1(n)
+    if n > 0 then
+        return foo1(n-1) + 1
+    end
+
+    return 0
+end
+
+print("foo1")
+print(foo1(1024*1024))
 --[[
 thread
 userdata
