@@ -349,6 +349,25 @@ print(zip)
 --[[
 
 --function
+    call
+        funcName param
+            -- only 1 param
+                  string or table
+        funcName(param)
+        object:funcName(param)
+    param
+        抛弃多余的
+        补齐不够的
+    multi-return
+        multi-assign
+            最右
+        func-params
+            最右
+        table-constructor
+            最右
+        return
+            最右
+
 function factorial1(n)
     if n == 0 then
         return 1
@@ -361,6 +380,59 @@ factorial2 = factorial1
 print(factorial2(5))
 --]]
 
+
+function foo0()
+
+end
+
+function foo1()
+    return 1
+end
+
+function foo2()
+    return 1, 2
+end
+
+-- multi-assign
+print("multi-assign-------")
+x, y = foo2()
+print(x, y)
+
+x, y = foo2(),3
+print(x, y)
+
+-- func-param
+print("func-param")
+print(foo2())
+print(foo2(), 3)
+
+
+--table-constructor
+print("table-constructor")
+tbl = {foo2()}
+for k, v in pairs(tbl) do
+    print(k, v)
+end
+
+print("---------------")
+tbl = {foo2(), 3}
+for k, v in pairs(tbl) do
+    print(k, v)
+end
+
+---return
+function foo(i)
+    if i == 0 then
+        return foo0()
+    elseif i == 1 then
+        return foo1()
+    elseif i == 2 then
+        return foo2()
+    end
+end
+
+print("return")
+print(foo(2))
 
 --[[
 thread
