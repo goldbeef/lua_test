@@ -764,14 +764,25 @@ function
 
            local funcName   --local
            function funcName ... end     --local
-    2. lexical scope; lambda exp
+    2. lexical scope, 词法定界
+            lambda exp；闭包
+            非局部变量，up-value
 
-optional_function_scope function function_name( argument1, argument2, argument3..., argumentn)
+            usage
+                1. high-order-function
+                2. function which creates function
+                3. callBack function
+                4. re-define function, include pre-defined function
+                5. sandbox; secure environment
+
+
+optional_function_scope function function_name( argument1, argument2, argument3..., argument)
     function_body
     return result_params_comma_separated
 end
 
 --]]
+
 
 local fact  --local
 function fact(n) --local
@@ -784,6 +795,25 @@ function fact(n) --local
 end
 
 print(fact(10))
+
+
+function newCounter()
+    local count = 0
+    return function ()
+        count = count + 1
+        return count
+    end
+end
+
+cnt1 = newCounter()
+print(cnt1())
+print(cnt1())
+print(cnt1())
+
+cnt2 = newCounter()
+print(cnt2())
+print(cnt2())
+
 
 --[[
 function max(num1, num2)
