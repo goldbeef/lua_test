@@ -603,8 +603,8 @@ end
 for var=exp1,exp2,exp3 do
     <执行体>
 end
---genetic
 
+--genetic
 for with
     pairs
     ipairs
@@ -742,9 +742,23 @@ print("a 的真实值为: ", a )
 
 --]]
 
-
 --[[
 function
+    1. first-class value
+        全部都是匿名的；
+        可以做普通的变量;
+
+        global function
+            function foo() do .. end    ==>>
+            foo = function do .. end
+       local function
+            lib = {}
+               lib.foo = function() do ... end
+
+               function lib.foo() do ... end
+
+               lib = { foo = function() do ... end }
+    2. lexical scope; lambda exp
 
 optional_function_scope function function_name( argument1, argument2, argument3..., argumentn)
     function_body
@@ -753,6 +767,18 @@ end
 
 --]]
 
+local fact
+function fact(n) end do
+    n = n or 0
+    if n <= 0 then
+        return 1
+    end
+
+    return n*fact(n-1)
+end
+
+print(fact(10))
+print("hello world")
 --[[
 function max(num1, num2)
     if (num1 > num2) then
