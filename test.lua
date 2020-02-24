@@ -758,6 +758,12 @@ function
                function lib.foo() do ... end
 
                lib = { foo = function() do ... end }
+
+
+           local function funcName  ... end      ==>
+
+           local funcName   --local
+           function funcName ... end     --local
     2. lexical scope; lambda exp
 
 optional_function_scope function function_name( argument1, argument2, argument3..., argumentn)
@@ -767,8 +773,8 @@ end
 
 --]]
 
-local fact
-function fact(n) end do
+local fact  --local
+function fact(n) --local
     n = n or 0
     if n <= 0 then
         return 1
@@ -778,7 +784,7 @@ function fact(n) end do
 end
 
 print(fact(10))
-print("hello world")
+
 --[[
 function max(num1, num2)
     if (num1 > num2) then
@@ -1189,6 +1195,7 @@ end
 --]]
 
 
+print("hello")
 -- testmain
 --[[
 --]]
