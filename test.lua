@@ -783,7 +783,7 @@ end
 
 --]]
 
-
+--[[
 local fact  --local
 function fact(n) --local
     n = n or 0
@@ -813,8 +813,27 @@ print(cnt1())
 cnt2 = newCounter()
 print(cnt2())
 print(cnt2())
+--]]
 
 
+--[[
+reg-exp
+   not like perl/posix
+
+   string.find
+--]]
+begIdx, endIdx  = string.find("hello world", "hello")
+print(begIdx, endIdx)
+
+begIdx, endIdx  = string.find("hello world", "no-such")
+print(begIdx, endIdx)
+
+
+print(string.match("hello world", "hello"))
+print(string.match("test 12/23/23", "%d+/%d+/%d+"))
+
+print(string.gsub("aaa", 'a', 'b'))
+print(string.gsub("aaa", 'a', 'b', 2))
 --[[
 function max(num1, num2)
     if (num1 > num2) then
