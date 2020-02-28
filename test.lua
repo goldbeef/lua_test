@@ -822,6 +822,8 @@ reg-exp
 
    string.find
 --]]
+
+--[[
 begIdx, endIdx  = string.find("hello world", "hello")
 print(begIdx, endIdx)
 
@@ -834,6 +836,51 @@ print(string.match("test 12/23/23", "%d+/%d+/%d+"))
 
 print(string.gsub("aaa", 'a', 'b'))
 print(string.gsub("aaa", 'a', 'b', 2))
+
+--]]
+
+
+--[[
+    date and time
+
+    time
+        os.time()
+    date
+        tbl = os.date("*t", timestamp)
+        strTime = os.date("%D", timestamp)
+--]]
+
+--[[
+print(os.time())
+
+--time -> date
+print("min:" .. os.time() % 3600 // 60)
+print("sec:" .. os.time()%60)
+
+-- date --> time
+print(os.time({
+    year = 1970,
+    month = 1,
+    day = 1,
+    hour = 0
+})) --28800
+
+print(os.time({
+    year = 1970,
+    month = 1,
+    day = 1,
+    hour = 8
+})) --0, 需要自己换算时区
+
+--]]
+
+tbl = os.date("*t", os.time()) -- 自带时区转换
+for k, v in pairs(tbl) do
+    print(k, v)
+end
+
+print(os.date("%Y-%m-%d-%H-%M-%S-%z", os.time())) -- 自带时区转换
+
 --[[
 function max(num1, num2)
     if (num1 > num2) then
