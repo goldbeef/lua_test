@@ -846,8 +846,16 @@ print(string.gsub("aaa", 'a', 'b', 2))
     time
         os.time()
     date
+        自带时区转换
         tbl = os.date("*t", timestamp)
         strTime = os.date("%D", timestamp)
+    time/date operation
+        date.tbl
+            自动归一化
+        os.difftime
+            on-wall time
+        os.clock
+            cpu time
 --]]
 
 --[[
@@ -872,7 +880,6 @@ print(os.time({
     hour = 8
 })) --0, 需要自己换算时区
 
---]]
 
 tbl = os.date("*t", os.time()) -- 自带时区转换
 for k, v in pairs(tbl) do
@@ -880,6 +887,42 @@ for k, v in pairs(tbl) do
 end
 
 print(os.date("%Y-%m-%d-%H-%M-%S-%z", os.time())) -- 自带时区转换
+
+print("day test")
+t = os.date("*t")
+print(os.date("%Y/%m/%d", os.time(t)))
+t.day = t.day + 40
+print(os.date("%Y/%m/%d", os.time(t))) --自动归一化
+
+print("month test")
+t = os.date("*t")
+print(os.date("%Y/%m/%d", os.time(t)))
+t.month = t.month + 1
+print(os.date("%Y/%m/%d", os.time(t))) --自动归一化
+t.month = t.month - 1
+print(os.date("%Y/%m/%d", os.time(t))) --自动归一化
+
+
+t1 = os.time()
+os.execute("sleep " .. 1)
+t2 = os.time()
+print(os.difftime(t2, t1)) -- on-wall time
+--]]
+
+--[[
+c1 = os.clock()
+os.execute("sleep " .. 1)
+c2 = os.clock()
+
+local sum = 0;
+for i = 1, 1000000000 do
+    sum = sum + i
+end
+
+c3 = os.clock()
+print(c2 - c1) -- cpu time
+print(c3- c2) -- cpu time
+--]]
 
 --[[
 function max(num1, num2)
