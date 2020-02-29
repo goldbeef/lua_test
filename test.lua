@@ -928,15 +928,49 @@ print(c3- c2) -- cpu time
 bits and byte
     &
     |
-    ^
     ~
+        按位异或/取反
     >>
     <<
+        lua只有逻辑移位，没有算术移位
+
+unsigned int
+    lua不显示支持无符号
+    string.format("%u", val)
+    string.format("%x", val)
+
+    +, -, *
+        same to signed int
+    math-compare
+        math.ult(val1, val2)
+
+        mask = 0x8000000000000000
+        (val1 ~ mask) < (val2 ~ mask)
+    /
+        需要特殊处理
+    float -> unsigned
+        需要特殊处理
+    unsigned -> float
+        需要特殊处理
 --]]
 
+--[[
 print(string.format("%x",  255))
 print(string.format("%x",  0xff << 12))
 print(string.format("%x",  0xff >> -12))
+
+--lua只有逻辑移位
+print(string.format("%x",  0xffffffffffffffff))
+print(string.format("%x",  0xffffffffffffffff >> 1))
+--]]
+
+print(string.format("%x",  0x03 << 62))
+print(string.format("%d",  0x03 << 62))
+print(string.format("%u",  0x03 << 62))
+
+mask = 0x8000000000000000
+print(math.ult(1, 0xffffffffffffffff)) --true
+print((1 ~mask) < (0xffffffffffffffff ~mask)) --true
 
 --[[
 function max(num1, num2)
