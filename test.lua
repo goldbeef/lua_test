@@ -962,7 +962,6 @@ print(string.format("%x",  0xff >> -12))
 --lua只有逻辑移位
 print(string.format("%x",  0xffffffffffffffff))
 print(string.format("%x",  0xffffffffffffffff >> 1))
---]]
 
 print(string.format("%x",  0x03 << 62))
 print(string.format("%d",  0x03 << 62))
@@ -971,6 +970,29 @@ print(string.format("%u",  0x03 << 62))
 mask = 0x8000000000000000
 print(math.ult(1, 0xffffffffffffffff)) --true
 print((1 ~mask) < (0xffffffffffffffff ~mask)) --true
+--]]
+
+--[[
+    string.pack
+    string.unpack
+
+    integer
+        b, h, i, l, j
+            +i
+    string
+        \0, 定长，显示长度
+    float
+        单精度浮点，双精度浮点，
+
+
+    二进制 -> 文本
+
+    文本 -> 二进制
+--]]
+
+buff = string.pack("ii", 1,2)
+print(#buff)
+print(string.unpack("ii", buff))
 
 --[[
 function max(num1, num2)
