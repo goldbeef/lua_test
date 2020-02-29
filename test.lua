@@ -925,6 +925,20 @@ print(c3- c2) -- cpu time
 --]]
 
 --[[
+bits and byte
+    &
+    |
+    ^
+    ~
+    >>
+    <<
+--]]
+
+print(string.format("%x",  255))
+print(string.format("%x",  0xff << 12))
+print(string.format("%x",  0xff >> -12))
+
+--[[
 function max(num1, num2)
     if (num1 > num2) then
         return num1
