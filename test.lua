@@ -1098,6 +1098,7 @@ lua 数据文件/序列化
 
 --]]
 
+--[[
 function serialize1(o, prefix)
     prefix = prefix or ""
     local t = type(o)
@@ -1122,6 +1123,68 @@ serialize1({a = 12, b = "lua", key = "another one", {l21 = 1, l22 =2}})
 
 print("-------------")
 serialize1({["+"] = "add", ["-"] = "del"})
+--]]
+
+function basicSerialize(o)
+    --number, string, nil, boolean
+    return string.format("%q\n", o)
+end
+
+function serialize2(name, o, prefix, saved)
+    saved = saved or {}
+    prefix = prefix or ""
+    name = name or ""
+    local t = type(o)
+    io.write(prefix .. name, " = ")
+    --basic
+    if t == "number" or t == "string" or t == "nil" or t == "boolean" then
+        io.write(prefix .. basicSerialize(o))
+        return
+    end
+
+    --non-table
+    if t ~= "table" then
+        error("can not serialize a" .. type(o))
+    end
+
+    --table saved
+    if saved[o] then
+        io.write(prefix .. saved[o], "\n")
+        return
+    end
+
+    --new table
+    saved[o] = name
+    io.write(prefix .. "{\n")
+    for k, v in pairs(o) do
+        --io.write(prefix .. "\t", k, " = ")
+        --io.write(prefix .. "\t[", k, "] = ")
+        serialize2(k, v, prefix .. "\t", saved)
+        --io.write(prefix .. ",\n")
+    end
+    io.write(prefix .. "}\n")
+end
+
+print("-------------------")
+serialize2("a", 1)
+
+print("-------------------")
+a = {x = 1, y = 2, {3,4,5}}
+serialize2("a", a)
+
+print("-------------------")
+a[2] = a
+serialize2("a", a)
+
+
+
+t = {1,2, 3}
+tbl1 = {a = 1, inner = t}
+tbl2 = {b = 2, inner = t}
+local shared = {}
+
+serialize2("tbl1", tbl1, "", shared)
+serialize2("tbl2", tbl2, "", shared)
 --[[
 function max(num1, num2)
     if (num1 > num2) then
