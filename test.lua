@@ -1061,6 +1061,7 @@ matrix:
 	popLast(list, value);
 --]]
 
+--[[
 t1 = os.time()
 content = ""
 for i = 1, 100000 do
@@ -1078,7 +1079,49 @@ end
 content = table.concat(tbl)
 t2 = os.time()
 print( t2 - t1)
+--]]
 
+--[[
+lua 数据文件/序列化
+    描述数据
+        安全性
+        性能
+数据文件
+    将数据文件协程lua代码
+
+    "goldbeef", "goldbeef@163.com"   -->
+
+    Entry{"goldbeef", "goldbbeef@163.com"} -->
+
+    Entry{name = "goldbeef", email = "goldbeef@163.com"}
+序列化
+
+--]]
+
+function serialize1(o, prefix)
+    prefix = prefix or ""
+    local t = type(o)
+    if t == "number" or t == "string" or t == "nil" or t == "boolean" then
+        io.write(prefix .. string.format("%q", o))
+    elseif t == "table" then
+        io.write(prefix .. "{\n")
+        for k, v in pairs(o) do
+            --io.write(prefix .. "\t", k, " = ")
+            io.write(prefix .. "\t[", k, "] = ")
+            serialize1(v, prefix .. "\t")
+            io.write(prefix .. ",\n")
+        end
+        io.write(prefix .. "}\n")
+    else
+        error("can not serialize a" .. type(o))
+    end
+end
+
+print("-------------")
+serialize1({a = 12, b = "lua", key = "another one", {l21 = 1, l22 =2}})
+
+print("-------------")
+serialize1({["+"] = "add", ["-"] = "del"})
 --[[
 function max(num1, num2)
     if (num1 > num2) then
