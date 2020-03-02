@@ -1061,6 +1061,23 @@ matrix:
 	popLast(list, value);
 --]]
 
+t1 = os.time()
+content = ""
+for i = 1, 100000 do
+    content = content .. "hello world"
+end
+t2 = os.time()
+print(t2 - t1)
+
+t1 = os.time()
+content = ""
+tbl = {}
+for i = 1, 200000 do
+    tbl[i] =  "hello world"
+end
+content = table.concat(tbl)
+t2 = os.time()
+print( t2 - t1)
 
 --[[
 function max(num1, num2)
