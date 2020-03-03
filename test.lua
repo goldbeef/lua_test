@@ -1125,6 +1125,7 @@ print("-------------")
 serialize1({["+"] = "add", ["-"] = "del"})
 --]]
 
+--[[
 function basicSerialize(o)
     --number, string, nil, boolean
     return string.format("%q\n", o)
@@ -1185,6 +1186,37 @@ local shared = {}
 
 serialize2("tbl1", tbl1, "", shared)
 serialize2("tbl2", tbl2, "", shared)
+--]]
+
+--[[
+编译/运行/错误
+    dofile
+        编译+执行
+
+        易用
+        开销大
+    loadfile
+        灵活
+        开销小
+    load
+        assert(load(s))()
+        开销大/诡异问题
+--]]
+
+i  = 32
+local i = 10
+
+function loadTest1()
+    print(i)
+end
+print("----------")
+print(loadTest1()) --local
+
+
+print("----------")
+loadTest2 = load("print(i)")
+print(loadTest2()) --global
+
 --[[
 function max(num1, num2)
     if (num1 > num2) then
