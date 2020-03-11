@@ -1200,9 +1200,33 @@ serialize2("tbl2", tbl2, "", shared)
         开销小
     load
         assert(load(s))()
+        不涉及词法定界
+            总是从全局环境获取变量
+        可以进行反复调用
+        传参数
+            ...
         开销大/诡异问题
+
+        load/loadfile
+            从来不引发错误，没有副作用；
+            加载失败，会返回nil, errmsg;
+            函数定义是运行时的操作；
+                f = assert(loadfile(file))
+                f() -- 函数定义执行
+            "bt"
+    预编译代码 --二进制文件
+        luac -o prog.lc prog.lua
+
+        可被 lua/loadfile/load接受
+
+        -l
+            //展示类似汇编的代码
+
+        预编译代码，加载快；但是避免非受信代码。
+        
 --]]
 
+--[[
 i  = 32
 local i = 10
 
@@ -1216,6 +1240,39 @@ print(loadTest1()) --local
 print("----------")
 loadTest2 = load("print(i)")
 print(loadTest2()) --global
+
+
+--assert(load("print("))  --assert err
+--load("print(")() -- err
+
+print(io.read())
+
+f = assert(load("local x = ...; print(x)"))
+f()
+f(1)
+f(2)
+
+load("i i ") --没有报错
+-- print(load("i i "))
+
+
+print("-----------")
+f = assert(loadfile("./module.lua"))
+print(module) -- nil
+f()
+print(module) -- non-nil
+
+for k, v in pairs(module) do
+    print(k, v)
+end
+
+print("-----------")
+--]]
+
+
+
+
+
 
 --[[
 function max(num1, num2)
