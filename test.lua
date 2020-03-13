@@ -1301,6 +1301,7 @@ print("-----------")
 assert(false, "hello")
 --]]
 
+--[[
 function add(a, b)
     return a+b
 end
@@ -1334,6 +1335,27 @@ print(isOk, err, type(isOk), type(err))
 for k, v in pairs(_G)  do
     print(k, v)
 end
+--]]
+
+function test1()
+    print("test1")
+end
+
+function hookCall()
+    print("hookCall")
+end
+
+function hookRet()
+    print("hookRet")
+end
+
+debug.sethook(hookCall,"c")
+debug.sethook(hookCall,"r")
+
+print("hello1")
+test1()
+print("hello2")
+
 --[[
 function max(num1, num2)
     if (num1 > num2) then
