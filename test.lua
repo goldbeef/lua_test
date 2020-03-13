@@ -1271,9 +1271,69 @@ print("-----------")
 
 
 
+--[[
+错误处理
+    error
+        退出程序
+
+        可以使msg, 也可以是其它类型(错误对象)
+    assert
+        判别expr, 打印msg, 退出程序
+
+    常见错误处理：
+        返回错误码
+        error
+        assert
+
+    lua异常捕获和处理
+        代码封装
+        pcall/xpcall
+        捕获 错误标记/错误对象
+    总的来说，异常机制
+        1. error/assert/.. 抛异常
+        2. pcall/xpcall 捕获异常
+        3. 错误信息(error-object)标记错误的类型
+--]]
+
+--[[
+error("hello1")
+print("-----------")
+assert(false, "hello")
+--]]
+
+function add(a, b)
+    return a+b
+end
+
+--add(1, "a") --error
+
+function func1()
+
+end
+
+function func2()
+    error("func2:error")
+end
+
+function func3()
+    error({code = 100})
+end
 
 
+print("------------------")
+isOk, err = pcall(func1)
+print(isOk, err, type(isOk), type(err))
+print("------------------")
+isOk, err = pcall(func2)
+print(isOk, err, type(isOk), type(err))
+print("------------------")
+isOk, err = pcall(func3)
+print(isOk, err, type(isOk), type(err))
 
+
+for k, v in pairs(_G)  do
+    print(k, v)
+end
 --[[
 function max(num1, num2)
     if (num1 > num2) then
