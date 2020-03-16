@@ -1358,6 +1358,44 @@ test1()
 print("hello2")
 --]]
 
+local json = require "dkjson"
+for k, v in pairs(json) do
+    print(k, v)
+end
+
+local json = require ("dkjson")
+local tbl = {
+    animals = { "dog", "cat", "aardvark" },
+    instruments = { "violin", "trombone", "theremin" },
+    bugs = json.null,
+    trees = nil
+}
+
+local str = json.encode (tbl, { indent = true })
+print (str)
+
+
+local str = [[
+{
+  "numbers": [ 2, 3, -20.23e+2, -4 ],
+  "currency": "\u20AC"
+}
+]]
+
+local obj, pos, err = json.decode (str, 1, nil)
+if err then
+    print ("Error:", err)
+else
+    print ("currency", obj.currency)
+    for i = 1,#obj.numbers do
+        print (i, obj.numbers[i])
+    end
+end
+
+
+
+
+
 --[[
 --json
 local cjson2 = require "cjson"
