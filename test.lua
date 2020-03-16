@@ -1358,6 +1358,7 @@ test1()
 print("hello2")
 --]]
 
+--[[ json test
 local json = require "dkjson"
 for k, v in pairs(json) do
     print(k, v)
@@ -1375,12 +1376,12 @@ local str = json.encode (tbl, { indent = true })
 print (str)
 
 
-local str = [[
+local str = [==[
 {
   "numbers": [ 2, 3, -20.23e+2, -4 ],
   "currency": "\u20AC"
 }
-]]
+]==]
 
 local obj, pos, err = json.decode (str, 1, nil)
 if err then
@@ -1392,9 +1393,48 @@ else
     end
 end
 
+--]]
 
 
+local elasticsearch = require "elasticsearch"
 
+local client = elasticsearch.client{
+    hosts = {
+        { -- Ignoring any of the following hosts parameters is allowed.
+            -- The default shall be set
+            protocol = "http",
+            host = "localhost",
+            port = 9200
+        }
+    },
+    -- Optional parameters
+    params = {
+        pingTimeout = 2
+    }
+}
+-- Will connect to default host/port
+local client = elasticsearch.client()
+local data, err = client:info()
+print(data, err)
+
+
+data, err = client:search{
+    index = "local_master_product_index",
+    body = {
+            query = {
+                match = {
+                    country = "ID"
+                }
+            }
+    }
+}
+
+print(data, err)
+print(type(data))
+print("hello3")
+for k, v in pairs(data) do
+    print(k, v)
+end
 
 --[[
 --json
