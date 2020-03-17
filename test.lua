@@ -1395,7 +1395,7 @@ end
 
 --]]
 
-
+--[[
 local elasticsearch = require "elasticsearch"
 
 local client = elasticsearch.client{
@@ -1428,13 +1428,24 @@ data, err = client:search{
             }
     }
 }
-
 print(data, err)
 print(type(data))
 print("hello3")
 for k, v in pairs(data) do
     print(k, v)
 end
+--]]
+
+--[[
+--]]
+local var = require("module")
+print("type1: " .. type(var))
+
+var = require("module").func1
+print("type2: " .. type(var))
+
+var = require "module".func1
+print("type3: " .. type(var))
 
 --[[
 --json
