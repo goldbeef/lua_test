@@ -1437,7 +1437,31 @@ end
 --]]
 
 --[[
+require
+	package.loaded 
+		package.loaded[modname] = tbl
+			retun table
+		package.loaded[modname] = true
+			return nil 
+		package.loaded[modname] = nil
+			not loaded
+	package.path
+		lua file
+		loadfile
+	package.cpath
+		clib
+		package.loadlib
+		luaopen_modname
+module rename
+	for lua file 
+		just change file name 
+	for clib 
+		rename the libname to clib-v2
+		still call luaopen_clib
+
 --]]
+
+--[[
 local var = require("module")
 print("type1: " .. type(var))
 
@@ -1446,6 +1470,31 @@ print("type2: " .. type(var))
 
 var = require "module".func1
 print("type3: " .. type(var))
+
+var = require("emptymodule")
+print("type4: " .. type(var))
+
+var = require("emptymodule") --nothing done
+print("type4: " .. type(var))
+
+package.loaded["emptymodule"] = nil 
+var = require("emptymodule") --reload
+print("type5: " .. type(var))
+
+print("............................")
+print("path: " .. package.path)
+print("cpath: " .. package.cpath)
+print("............................")
+for k, v in pairs(package.loaded) do
+	print("loaded", k, v)
+end 
+
+local var = require("emptymodule-v1")
+print("emptymodule-v1",  var)
+--]]
+
+
+--testmain
 
 --[[
 --json
@@ -1887,8 +1936,6 @@ end
 --]]
 
 
-print("hello")
--- testmain
 --[[
 --]]
 
