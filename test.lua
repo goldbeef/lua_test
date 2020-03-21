@@ -1459,6 +1459,33 @@ module rename
 		rename the libname to clib-v2
 		still call luaopen_clib
 
+search-path
+	package.path
+		LUA_PATH_5_3
+		LUA_PATH
+	package.cpath
+		LUA_CPATH_5_3
+		LUA_CPATH
+searchers
+	package.searchers
+		预加载器
+			package.preload: 预加载表
+		lua文件搜索器
+		c标准库搜索器
+module-comm
+	type-1
+		local m = {}
+		...
+		return m
+	type-2
+		....
+		return {a = xx, b = xxx}
+sub-module 
+	a.b --> a/b
+	目录分隔符:编译时配置的
+
+	注意c表中库，会替换为 '_'
+		a.b --> luaopen_a_b
 --]]
 
 --[[
@@ -1493,8 +1520,43 @@ local var = require("emptymodule-v1")
 print("emptymodule-v1",  var)
 --]]
 
+--[[
+
+for k, v in pairs(package.searchers) do 
+	print("searchers", k, v)
+end 
+
+print("preload", package.preload)
+for k, v in pairs(package.preload) do 
+	print("preload", k, v)
+end 
+--]]
+
+local m1 = require("module_type1")
+for  k, v in pairs(m1) do 
+	print("m1", k, v)
+end 
+
+local m2 = require("module_type2")
+for  k, v in pairs(m2) do 
+	print("m2", k, v)
+end 
+
+local sub = require("submod.submod1")
+for  k, v in pairs(sub) do 
+	print("sub", k, v)
+end 
+
+
+--[[
+local test_a = require("test.a") --module not found
+for  k, v in pairs(test_a) do 
+	print("test_a", k, v)
+end 
+--]]
 
 --testmain
+
 
 --[[
 --json
