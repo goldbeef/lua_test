@@ -1532,6 +1532,7 @@ for k, v in pairs(package.preload) do
 end 
 --]]
 
+--[[
 local m1 = require("module_type1")
 for  k, v in pairs(m1) do 
 	print("m1", k, v)
@@ -1546,6 +1547,7 @@ local sub = require("submod.submod1")
 for  k, v in pairs(sub) do 
 	print("sub", k, v)
 end 
+--]]
 
 
 --[[
@@ -1554,6 +1556,57 @@ for  k, v in pairs(test_a) do
 	print("test_a", k, v)
 end 
 --]]
+
+--[[
+迭代器
+	闭包
+	工厂
+泛型for 
+	for var-list in exp-list do 
+	end 
+
+	控制变量
+		first of var-list 
+	return of exp-list:
+		迭代函数, 不可变状态, 控制变量
+	
+	
+	----------------
+	for var_1, .., var_n in explist do block end 
+
+	==>
+
+	do 
+		local _f, _s, _var = explist 
+		while true do 
+			local var_1, .., var_n = _f(_s, _var)
+			_var = var_1
+			if _var == nil then 
+				break
+			end 
+
+			block
+		end
+	end 
+--]]
+
+function values(list) 
+	local i = 0
+	return function() i = i + 1; return list[i] end
+end
+
+list = {1, 2, 3}
+iter = values(list)
+
+while true do 
+	local elem = iter()
+	if elem == nil then break end 
+	print("iter1", elem)
+end 
+
+for elem in values(list) do 
+	print("iter2", elem)
+end 
 
 --testmain
 
