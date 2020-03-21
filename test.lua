@@ -1588,6 +1588,40 @@ end
 			block
 		end
 	end 
+
+stateless-iterator
+	ipairs
+		local function iter(t, i) 
+			i = i + 1
+			local v = t[i]
+			if v then 
+				return i, v
+			end 
+		end 
+
+		function iparis(t) 
+			return iter, t, 0
+		end
+
+	paris
+		function pairs(t) 
+			return next, t, nil
+		end 
+按照顺序遍历表
+	把键值copy到数组中，然后排序
+
+之前描述的迭代器：
+	generator
+	灵活
+	多层嵌套
+		break;
+		return
+真正的迭代器:
+	for k, v in lines do 
+		body(...)
+	end 
+
+	简单
 --]]
 
 function values(list) 
@@ -1608,6 +1642,48 @@ for elem in values(list) do
 	print("iter2", elem)
 end 
 
+
+line = {
+	["def"] = 10,
+	["cef"] = 20,
+	["aef"] = 30,
+}
+
+for k, v in pairs(line) do 
+	print("before sorted", k, v)
+end 
+
+a = {}
+for k in pairs(line) do 
+	a[#a+1] = k
+end 
+
+table.sort(a)
+for _, n in ipairs(a) do 
+	print("sorted", n)
+end
+
+for _, n in pairs(a) do 
+	print("sorted-1", n)
+end
+
+function pairsByKeys(t, f) 
+	local a = {}
+	for k in pairs(t) do 
+		a[#a+1] = k
+	end 
+
+	table.sort(a)
+	local i = 0
+	return function()
+		i = i + 1
+		return a[i], t[a[i]]
+	end 
+end 
+
+for k, v in pairsByKeys(line) do 
+	print("parisByKeys", k, v)
+end 
 --testmain
 
 
