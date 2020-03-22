@@ -1624,6 +1624,7 @@ stateless-iterator
 	简单
 --]]
 
+--[[
 function values(list) 
 	local i = 0
 	return function() i = i + 1; return list[i] end
@@ -1677,13 +1678,51 @@ function pairsByKeys(t, f)
 	local i = 0
 	return function()
 		i = i + 1
-		return a[i], t[a[i]]
+		return a[i], t[a[i] ]
 	end 
 end 
 
 for k, v in pairsByKeys(line) do 
 	print("parisByKeys", k, v)
 end 
+
+--]]
+--
+
+--[[
+元表
+	修改面对未知操作的行为
+	元方法
+
+	受限制类
+
+	每个值都可以有元表
+		lua语言只能为表 设置 元表
+		其他类型，需要调用c代码或者调式库
+--]]
+
+
+print("-----------------------")
+t1 = {}
+setmetatable(t1, {})
+print(getmetatable(t1))
+for k, v in pairs(getmetatable(t1)) do 
+	print("meta", k, v)
+end 
+
+print("-----------------------")
+print("metatble", getmetatable(10))
+print("-----------------------")
+print("metatble", getmetatable(print))
+print("-----------------------")
+print("metatble", getmetatable("hello"))
+for k, v in pairs(getmetatable("hello")) do 
+	print("meta", k, v)
+end 
+
+
+--setmetatable(10, {}) --error
+
 --testmain
 
 
