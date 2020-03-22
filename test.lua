@@ -1725,10 +1725,28 @@ end
 				for update
 				table 
 					设置元表
-				function(tbl, key)
+				function(tbl, key, val)
 
 				--
 				rawset(t, k, v)
+			实践
+				具有默认值的表
+					设置新的闭包和元表
+					共享元表
+						t.___
+					对偶表示
+					记忆
+				跟踪表的访问
+					local proxy = {}
+					function trace(t)
+						setmetatable(proxy, meta) -- meta use t to read/write
+					end 
+
+				只读的表
+					local proxy = {}
+					function readonly(t)
+						setmetatable(proxy, meta) -- meta use t to read
+					end
 	受限制类
 
 	每个值都可以有元表
@@ -1761,6 +1779,7 @@ end
 --setmetatable(10, {}) --error
 --]]
 
+--[[
 print("--------------------")
 set = require("set")
 s1 = set.new{1,2,3}
@@ -1812,6 +1831,8 @@ rawset(tbl, "key3", "hello3")
 tbl["key3"] = "hello3"
 
 --]]
+
+
 
 --testmain
 
