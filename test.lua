@@ -1721,6 +1721,14 @@ end
 				
 				--- 
 				rawget(tbl, key) --skip __index
+			__newindex
+				for update
+				table 
+					设置元表
+				function(tbl, key)
+
+				--
+				rawset(t, k, v)
 	受限制类
 
 	每个值都可以有元表
@@ -1785,6 +1793,26 @@ end })
 print("before __index", tbl)
 print("__index", tbl["key2"]) --- hello2
 print(rawget(tbl, "key2")) -- nil 
+
+tbl = {key1 = "hello1"}
+print("tbl", tbl)
+tmptble = {}
+setmetatable(tbl, {__newindex = tmptble})
+tbl["key2"] = "hello2"
+print("__newindex1", tmptble["key2"])
+
+setmetatable(tbl, {__newindex = function(tb, key)
+	print("in __newindex2", tb)
+	return key
+end })
+
+tbl["key2"] = "hello2"
+
+rawset(tbl, "key3", "hello3")
+tbl["key3"] = "hello3"
+
+--]]
+
 --testmain
 
 
