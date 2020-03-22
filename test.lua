@@ -1754,7 +1754,12 @@ print(set.new{1,2} < set.new{1,2,3})
 print(set.new{1,2, 4} < set.new{1,2,3})
 
 print("--------------------")
-print(set.new{1,2,3,4,5})
+print(set.new{1,2,3,4,5}) -- __tostring
+
+s3 = set.new{1,2,3}
+print("__metatable", getmetatable(s3)) -- can not access metatable
+--setmetatable(s3, {}) -- error for set protected metatable
+
 --testmain
 
 

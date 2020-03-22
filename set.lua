@@ -45,4 +45,6 @@ mt.__lt = function(a, b)
 end 
 
 mt.__tostring = Set.tostring
+
+mt.__metatable = "can not access metatable"
 return Set
