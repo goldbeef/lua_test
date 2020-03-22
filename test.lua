@@ -1709,6 +1709,18 @@ end
 					protect metatable for read and write
 			__paris
 				for traverse
+		表相关的方法
+			__index
+				常常用于实现继承
+				table 
+					简单
+				function(tbl, key)
+					灵活
+					多继承
+					缓存
+				
+				--- 
+				rawget(tbl, key) --skip __index
 	受限制类
 
 	每个值都可以有元表
@@ -1760,6 +1772,19 @@ s3 = set.new{1,2,3}
 print("__metatable", getmetatable(s3)) -- can not access metatable
 --setmetatable(s3, {}) -- error for set protected metatable
 
+tbl = {key1 = "hello1"}
+setmetatable(tbl, {__index = {key2 = "hello2"}})
+print("__index", tbl["key2"]) --- hello2
+print(rawget(tbl, "key2")) -- nil 
+
+setmetatable(tbl, {__index = function(tb, key)
+	print("in __index", tb)
+	return key
+end })
+
+print("before __index", tbl)
+print("__index", tbl["key2"]) --- hello2
+print(rawget(tbl, "key2")) -- nil 
 --testmain
 
 
