@@ -1693,15 +1693,32 @@ end
 元表
 	修改面对未知操作的行为
 	元方法
+		算术运算符相关
+			__add
+			__sub 
+			...
+		关系运算符相关
+			__eq
+			__lt
+			__le
 
+			部分有序，所以必须同时实现__lt, __le
+		库相关
+			__tostring
+			__metatable
+					protect metatable for read and write
+			__paris
+				for traverse
 	受限制类
 
 	每个值都可以有元表
 		lua语言只能为表 设置 元表
 		其他类型，需要调用c代码或者调式库
+
 --]]
 
 
+--[[
 print("-----------------------")
 t1 = {}
 setmetatable(t1, {})
@@ -1722,7 +1739,22 @@ end
 
 
 --setmetatable(10, {}) --error
+--]]
 
+print("--------------------")
+set = require("set")
+s1 = set.new{1,2,3}
+s2 = set.new{4,2,3}
+print(set.tostring(s1+s2))
+print(set.tostring(set.union(s1, s2)))
+
+
+print("--------------------")
+print(set.new{1,2} < set.new{1,2,3})
+print(set.new{1,2, 4} < set.new{1,2,3})
+
+print("--------------------")
+print(set.new{1,2,3,4,5})
 --testmain
 
 
