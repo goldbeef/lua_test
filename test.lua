@@ -1905,6 +1905,62 @@ lua
 			1.所有代码前面创建_ENV
 			2.自由名称var 替换为 _ENV.var
 			3.函数load，使用_G初始化_ENV
+		---- 
+		使用env 
+			单段代码块
+				一个文件
+				do .. end 
+			_ENV = nil 
+				后续代码不能访问全局变量
+			_ENV.a
+				绕过局部声明
+				_G.a 也可以
+			全局变量访问的都是_ENV
+			_G表示全局环境
+			_ENV主要用于改变代码段的环境
+			_ENV遵循常规的定界
+		ENV和模块
+			模块的缺点，污染全局空间
+
+			解决方法
+				1.	自动带入环境中
+					local M = {}
+					_ENV = M
+
+					function add(a, b) -- in M 
+						return a+b
+					end 
+
+				2.  不容许任何全局导出
+					local M = {}
+					local _G = _G
+					_ENV = nil 
+					...
+				3. 按需导出
+					local M = {}
+
+					....
+					导出部分
+					....
+
+					_ENV = nil 
+					非导出部分
+		ENV其他使用
+			load(filename, "t", env)
+				--sandbox 
+		
+			运行多次，每次不同环境
+				1. 借助debug
+					f = load(filename)
+					debug.setupvalue(f, 1, env)
+				2.  每次加载代码时进行修正
+					prefix = "_ENV = ...;"
+					f = loadWithPrefix(prefix, ...)
+
+					f(env1)
+
+					f(env2)
+					
 
 --]]
 
