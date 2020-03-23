@@ -1877,11 +1877,41 @@ lua
 			end 
 
 			判断变量是否存在rawget(_G, var)
+	非全局环境
+		自由名称
+			a = 10
+		编译器进行词法替换
+			a = 10 
+			==>
+			_ENV.a = 10
+		代码段当作匿名函数
+			a = 10 
+			==>
+			local _ENV = some value 
+			return function(...) 
+				_ENV.a = 10
+			end 
+		_ENV初始化为全局环境
+			a = 10 
+			==>
+			local _ENV = the global environment 
+			return function(...) 
+				_ENV.a = 10
+			end 
+
+
+		----
+		总结：
+			1.所有代码前面创建_ENV
+			2.自由名称var 替换为 _ENV.var
+			3.函数load，使用_G初始化_ENV
 
 --]]
 
 print("_G", _G)
 print("_G._G", _G._G)
+print("env", _ENV)
+print("_G.env", _G._ENV)
 hello = "world"
 for k, v in pairs(_G) do 
 	print("_G.k.v", k, v)
