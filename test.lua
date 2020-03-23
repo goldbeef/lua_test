@@ -1964,6 +1964,7 @@ lua
 
 --]]
 
+--[[
 print("_G", _G)
 print("_G._G", _G._G)
 print("env", _ENV)
@@ -1982,7 +1983,42 @@ setmetatable(tbl, {
 
 rawset(tbl, "hello", nil)
 print(tbl["hello"]) --still trigger __index
+--]]
+--
 
+
+--[[
+面向对象编程
+	表就是对象
+	self
+	具有与创建者和创建位置无关的生命周期
+
+	对操作的接受者(receiver)进行操作
+		显式
+			function Account.withdraw(self, v) 
+				self.account = self.account - v
+			end 
+		隐式
+			冒号操作符
+			function Account:withdraw(v) 
+				self.account = self.account - v
+			end 
+			
+--]]
+
+Account = {account = 10}
+function Account.withdraw1(self, v) 
+	self.account = self.account - v
+end 
+
+function Account.withdraw2(self, v) 
+	self.account = self.account - v
+end 
+
+Account.withdraw1(Account, 100)
+print("account", Account.account)
+Account:withdraw2(100)
+print("account", Account.account)
 --testmain
 
 
