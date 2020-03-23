@@ -1833,6 +1833,69 @@ tbl["key3"] = "hello3"
 --]]
 
 
+--[[
+环境
+	缺点：逻辑纠缠，代码复杂
+	优点：表达全局概念
+lua
+	全局变量保存在 全局环境中
+		简化内部实现
+		像其它表的操作一样
+	_G == _G._G
+
+	具有动态名称的全局变量
+		value = load("return " .. varname)()
+		==>>
+		value = _G[varname]
+
+	过度使用：
+		_G["a"] = _G["b"]
+		==>
+		_G.a = _G.b
+		a = b
+	全局变量的声明:
+		设置metatable，简单的检测
+			setmetatable(_G, {
+				__newindex = function 
+					error(".....")
+				end 
+				__index = function 
+					error(".....")
+				end 
+			})
+
+			function declare(name, initval) 
+				rawset(_G, initval or false)
+			end
+		全局变量的赋值放到函数里
+			__newindex = function(t, n, v) 
+				local w = debug.getinfo(2, "S").what
+				if w ~= "main" && w ~= "C" then 
+					error(".....")
+				end
+				rawset(t, n, v)
+			end 
+
+			判断变量是否存在rawget(_G, var)
+
+--]]
+
+print("_G", _G)
+print("_G._G", _G._G)
+hello = "world"
+for k, v in pairs(_G) do 
+	print("_G.k.v", k, v)
+end
+
+tbl = {}
+setmetatable(tbl, {
+	__index = function(tbl, key)
+		print("__index", key)
+	end 
+})
+
+rawset(tbl, "hello", nil)
+print(tbl["hello"]) --still trigger __index
 
 --testmain
 
